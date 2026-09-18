@@ -41,3 +41,53 @@ impl Solution {
         vec![]
     }
 }
+
+/*
+================================================================================
+[Production-Ready Architecture: The Hybrid Two-Sum]
+================================================================================
+In real-world production systems, data sizes vary widely. A Senior Systems Engineer
+often implements a Hybrid algorithm that chooses the optimal path based on N:
+
+1. Fast Path (N <= 32):
+   - Small arrays fit entirely within a single 64-byte L1 Cache Line.
+   - Brute Force O(N^2) nested loop runs in ~2-3 nanoseconds on CPU registers/L1 cache.
+   - Completely bypasses Heap allocations, SipHash computation, and Map overhead.
+
+2. General Path (N > 32):
+   - Switches to HashMap O(N) to prevent quadratic time explosion (O(N^2) scaling).
+   - Pre-allocates map capacity to eliminate re-hashing overhead.
+================================================================================
+*/
+
+/*
+impl Solution {
+    pub fn two_sum_production(nums: Vec<i32>, target: i32) -> Vec<i32> {
+        let n = nums.len();
+
+        // Fast Path: N <= 32 (L1 Cache Resident, Zero Heap Allocations)
+        if n <= 32 {
+            for i in 0..n {
+                for j in (i + 1)..n {
+                    if nums[i] + nums[j] == target {
+                        return vec![i as i32, j as i32];
+                    }
+                }
+            }
+            return vec![];
+        }
+
+        // General Path: N > 32 (O(N) HashMap to prevent quadratic scaling)
+        let mut map = HashMap::with_capacity(n);
+        for (i, &num) in nums.iter().enumerate() {
+            let complement = target - num;
+            if let Some(&prev_index) = map.get(&complement) {
+                return vec![prev_index as i32, i as i32];
+            }
+            map.insert(num, i);
+        }
+
+        vec![]
+    }
+}
+*/
